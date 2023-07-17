@@ -251,6 +251,6 @@ paket-files/
 .idea/
 *.sln.iml
 
-src/Test-CICD.Web.Mvc/secrets.json
-src/Test-CICD.Web.Host/secrets.json
-src/Test-CICD.Migrator/secrets.json
+src/CompanyWebsite.Web.Mvc/secrets.json
+src/CompanyWebsite.Web.Host/secrets.json
+src/CompanyWebsite.Migrator/secrets.json

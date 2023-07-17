@@ -3,7 +3,7 @@ echo ""
 echo ""
 
 $ABP_HOST="abp/host"
-$ABP_HOST_DOCKERFILE_PATH="src/Test-CICD.Web.Host/Dockerfile"
+$ABP_HOST_DOCKERFILE_PATH="src/CompanyWebsite.Web.Host/Dockerfile"
 $ABP_NG="abp/ng"
 
 cd ..

@@ -46,17 +46,13 @@ jobs:
     
       - name: Npm install
         run: |
-            cd Frontend/
-            rm -rf node_modules
-            npm cache clean --force
-            npm install --verbose
+            cd Frontend/angular
 
       - name: Npm start
         id: start-app
         run: |
-          cd Frontend/
+          cd Frontend/angular
           npm start
-        continue-on-error: true
         
       - name: Check if npm start succeeded
         run: |

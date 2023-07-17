@@ -47,12 +47,12 @@ jobs:
         id: start-app
         run: |
           cd Frontend/angular
-          ng build --prod
+          npm run build -- --prod
 
       - name: Run Tests
         run: 
           cd Frontend/angular
-          ng test
+          npm run test
         
       - name: Check if npm start succeeded
         run: |

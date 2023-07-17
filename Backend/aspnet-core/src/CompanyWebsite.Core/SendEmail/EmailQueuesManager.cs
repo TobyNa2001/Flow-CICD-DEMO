@@ -63,7 +63,7 @@ namespace CompanyWebsite.SendEmail
 
 
         // ADD
-        public async Task<EmailQueues> AddCareerEmailQueuesAsync(Applicant input, string refTable, IFormFileCollection files)
+        public async Task<EmailQueues> XXXAddCareerEmailQueuesAsync(Applicant input, string refTable, IFormFileCollection files)
         {
 
             string AttachmentsPath = string.Join(";", files.Select(file =>

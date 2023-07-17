@@ -50,7 +50,9 @@ jobs:
           ng build --prod
 
       - name: Run Tests
-        run: ng test
+        run: 
+          cd Frontend/angular
+          ng test
         
       - name: Check if npm start succeeded
         run: |

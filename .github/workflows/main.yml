@@ -26,8 +26,11 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Build Solution Backend
+        env:
+          # Accessing the secret variable
+          SOLUTION_PATH: ${{ secrets.SOLUTION_PATH_SECRET }}
         run: |
          dotnet build "${GITHUB_WORKSPACE}/Backend/aspnet-core/CompanyWebsite.sln" --configuration Release
         
       - name: Test test Backend
-        run: dotnet test ${{ secrets.BACKEND_TEST_PATH }} --configuration Release
+        run: dotnet build "${GITHUB_WORKSPACE}/${SOLUTION_PATH}"

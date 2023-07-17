@@ -38,21 +38,29 @@ jobs:
           TEST_PATH: ${{ secrets.BACKEND_TEST_PATH }}
         run: dotnet test "${GITHUB_WORKSPACE}/${TEST_PATH}"
         
-      - name: Npm install
+      - name: Install dependencies
         run: |
           cd Frontend/angular
           npm install
-
-      - name: Npm start
-        id: start-app
+      - name: Lint
         run: |
           cd Frontend/angular
-          npm run build
-
-      - name: Run Tests
-        run: 
+          npm run lint
+          
+      - name: Build
+        run: |
           cd Frontend/angular
-          npm run test
+          npm run build -- --prod
+          
+      - name: Test
+        run: |
+          cd Frontend/angular
+          npm test -- --configuration=ci
+          
+      - name: E2E
+        run: |
+          cd Frontend/angular
+          npm run e2e -- --configuration=ci
         
       - name: Check if npm start succeeded
         run: |

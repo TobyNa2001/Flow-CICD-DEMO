@@ -37,3 +37,24 @@ jobs:
           # Accessing the secret variable
           TEST_PATH: ${{ secrets.BACKEND_TEST_PATH }}
         run: dotnet test "${GITHUB_WORKSPACE}/${TEST_PATH}"
+        
+      - name: Npm install
+        run: |
+          cd Frontend/angular
+          npm install
+
+      - name: Npm start
+        id: start-app
+        run: |
+          cd Frontend/angular
+          npm start &
+        continue-on-error: true
+
+      - name: Check if npm start succeeded
+        run: |
+          if [ ${{ steps.start-app.outcome }} == 'success' ]; then
+            echo "npm start succeeded!"
+          else
+            echo "npm start failed!"
+            exit 1
+          fi

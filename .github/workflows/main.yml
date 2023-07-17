@@ -47,7 +47,7 @@ jobs:
         id: start-app
         run: |
           cd Frontend/angular
-          npm run build -- --prod
+          npm run build
 
       - name: Run Tests
         run: 

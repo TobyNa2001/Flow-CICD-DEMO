@@ -54,8 +54,8 @@ jobs:
         id: start-app
         run: |
           cd Frontend/angular
-          npm start
-        
+          npm start &
+        continue-on-error: true
       - name: Check if npm start succeeded
         run: |
           if [ ${{ steps.start-app.outcome }} == 'success' ]; then

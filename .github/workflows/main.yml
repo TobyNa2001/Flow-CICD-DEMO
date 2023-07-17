@@ -36,4 +36,4 @@ jobs:
         env:
           # Accessing the secret variable
           TEST_PATH: ${{ secrets.BACKEND_TEST_PATH }}
-        run: dotnet build "${GITHUB_WORKSPACE}/Backend/aspnet-core/test/CompanyWebsite.Tests/CompanyWebsite.Tests.cspro"
+        run: dotnet test "${GITHUB_WORKSPACE}/Backend/aspnet-core/test/CompanyWebsite.Tests/CompanyWebsite.Tests.cspro"

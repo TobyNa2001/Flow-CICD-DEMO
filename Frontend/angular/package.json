@@ -10,7 +10,9 @@
     "lint": "tslint --force --project src/tsconfig.json src/**/*.ts -t verbose",
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 4200",
-    "test": "ng test"
+    "test": "ng test",
+    "build": "ng build" // Add this line to define the build script
+
   },
   "dependencies": {
     "@angular/animations": "^15.0.3",

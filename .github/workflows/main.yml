@@ -1,0 +1,33 @@
+name: CICD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs: 
+  Setup:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ['6.0']
+    steps:
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        
+      - name: Build Solution Backend
+        run: |
+         dotnet build "${GITHUB_WORKSPACE}/Backend/aspnet-core/Test-CICD.sln" --configuration Release
+        
+      - name: Test test Backend
+        run: dotnet test ${{ secrets.BACKEND_TEST_PATH }} --configuration Release

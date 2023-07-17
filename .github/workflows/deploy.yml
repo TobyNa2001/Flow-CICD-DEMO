@@ -31,7 +31,7 @@ jobs:
           path: Backend/aspnet-core
 
       - name: Restore NuGet Packages
-        run: dotnet restore Backend/aspnet-core
+        run: dotnet restore Backend/aspnet-core/CompanyWebsite.sln
 
       - name: Build Backend
         run: |

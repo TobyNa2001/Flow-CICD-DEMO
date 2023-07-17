@@ -27,8 +27,7 @@ jobs:
         
       - name: Build Solution Backend
         run: |
-         echo "$BACKEND_SOLUTION_PATH"
-        #dotnet build ${{ secrets.BACKEND_SOLUTION_PATH }} --configuration Release
+         dotnet build ${{ secrets.BACKEND_SOLUTION_PATH }} --configuration Release
         
       - name: Test test Backend
         run: dotnet test ${{ secrets.BACKEND_TEST_PATH }} --configuration Release

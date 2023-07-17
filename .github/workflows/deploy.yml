@@ -96,4 +96,4 @@ jobs:
             - Updated database migration
             - Created new release
 
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }} 

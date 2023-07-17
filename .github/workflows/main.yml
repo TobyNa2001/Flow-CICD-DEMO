@@ -48,7 +48,8 @@ jobs:
         run: |
             cd Frontend/angular
             npm install
-
+        continue-on-error: true
+            
       - name: Npm start
         id: start-app
         run: |

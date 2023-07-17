@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Test-CICD": {
+    "CompanyWebsite": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -98,21 +98,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Test-CICD:build"
+            "browserTarget": "CompanyWebsite:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Test-CICD:build:production"
+              "browserTarget": "CompanyWebsite:build:production"
             },
             "hmr": {
-              "browserTarget": "Test-CICD:build:hmr"
+              "browserTarget": "CompanyWebsite:build:hmr"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Test-CICD:build"
+            "browserTarget": "CompanyWebsite:build"
           }
         },
         "test": {
@@ -159,7 +159,7 @@
         }
       }
     },
-    "Test-CICD-e2e": {
+    "CompanyWebsite-e2e": {
       "root": "",
       "sourceRoot": "",
       "projectType": "application",
@@ -168,7 +168,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "Test-CICD:serve"
+            "devServerTarget": "CompanyWebsite:serve"
           }
         }
       }
@@ -182,5 +182,8 @@
     "@schematics/angular:directive": {
       "prefix": "app"
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

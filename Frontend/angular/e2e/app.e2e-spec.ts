@@ -1,10 +1,10 @@
-import { Test-CICDTemplatePage } from './app.po';
+import { CompanyWebsiteTemplatePage } from './app.po';
 
-describe('Test-CICD App', function() {
-  let page: Test-CICDTemplatePage;
+describe('CompanyWebsite App', function() {
+  let page: CompanyWebsiteTemplatePage;
 
   beforeEach(() => {
-    page = new Test-CICDTemplatePage();
+    page = new CompanyWebsiteTemplatePage();
   });
 
   it('should display message saying app works', () => {

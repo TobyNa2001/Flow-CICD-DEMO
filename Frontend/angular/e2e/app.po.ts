@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class Test-CICDTemplatePage {
+export class CompanyWebsiteTemplatePage {
   navigateTo() {
     return browser.get('/');
   }

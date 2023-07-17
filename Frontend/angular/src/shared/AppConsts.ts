@@ -11,7 +11,7 @@ export class AppConsts {
     };
 
     static readonly localization = {
-        defaultLocalizationSourceName: 'Test-CICD'
+        defaultLocalizationSourceName: 'CompanyWebsite'
     };
 
     static readonly authorization = {

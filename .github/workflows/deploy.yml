@@ -1,0 +1,42 @@
+name: Deploy Application
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Frontend Code
+        uses: actions/checkout@v2
+        with:
+          path: Frontend/angular
+
+      - name: Build Frontend
+        run: |
+          cd Frontend/angular
+          npm install
+          npm run build
+
+
+
+  backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Backend Code
+        uses: actions/checkout@v2
+        with:
+          path: Backend/aspnet-core
+
+      - name: Build Backend
+        run: |
+          cd Backend/aspnet-core
+          dotnet build
+
+      - name: Deploy Backend
+        # Add your deployment steps here
+        # For example, you can use SSH to deploy the backend to a remote server or use cloud provider-specific deployment mechanisms

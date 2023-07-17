@@ -28,9 +28,12 @@ jobs:
       - name: Build Solution Backend
         env:
           # Accessing the secret variable
-          SOLUTION_PATH: ${{ secrets.SOLUTION_PATH_SECRET }}
+          SOLUTION_PATH: ${{ secrets.BACKEND_SOLUTION_PATH }}
         run: |
-         dotnet build "${GITHUB_WORKSPACE}/Backend/aspnet-core/CompanyWebsite.sln" --configuration Release
+         dotnet build "${GITHUB_WORKSPACE}/${SOLUTION_PATH}"
         
       - name: Test test Backend
-        run: dotnet build "${GITHUB_WORKSPACE}/${SOLUTION_PATH}"
+        env:
+          # Accessing the secret variable
+          TEST_PATH: ${{ secrets.BACKEND_TEST_PATH }}
+        run: dotnet build "${GITHUB_WORKSPACE}/${TEST_PATH}"

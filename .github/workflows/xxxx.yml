@@ -24,7 +24,9 @@ jobs:
         run: cd Frontend/angular
 
       - name: Install Angular CLI
-        run: npm install -g @angular/cli
+        run: |
+          npm cache clean --force
+          npm install -g @angular/cli
 
       - name: Install project dependencies
         run: npm install

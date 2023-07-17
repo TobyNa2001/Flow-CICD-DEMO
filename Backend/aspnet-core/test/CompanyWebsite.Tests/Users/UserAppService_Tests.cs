@@ -39,7 +39,7 @@ namespace CompanyWebsite.Tests.Users
                     Name = "John",
                     Surname = "Nash",
                     Password = "123qwe",
-                    UserName = "john.nyc"
+                    UserName = "john.nash"
                 });
 
             await UsingDbContextAsync(async context =>

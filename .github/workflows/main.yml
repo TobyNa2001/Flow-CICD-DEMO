@@ -47,6 +47,7 @@ jobs:
       - name: Npm install
         run: |
             cd Frontend/angular
+            npm install
 
       - name: Npm start
         id: start-app

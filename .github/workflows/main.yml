@@ -46,8 +46,10 @@ jobs:
     
       - name: Npm install
         run: |
-          cd Frontend/angular
-          npm install
+            cd Frontend/angular
+            rm -rf node_modules
+            npm cache clean --force
+            npm install
 
       - name: Npm start
         id: start-app

@@ -48,8 +48,6 @@ jobs:
         with:
           path: Backend/database
 
-      - name: Restore NuGet Packages
-        run: dotnet restore Backend/database
 
       - name: Update Database Migration
         run: |
@@ -67,8 +65,9 @@ jobs:
       - name: Deploy Backend
         run: |
           cd Backend/aspnet-core
-          dotnet publish --configuration Release --output publish/
+          dotnet publish --configuration Release
           # Add your deployment steps here using the published output from the previous step
+          dotnet publish -c Release -o ./myapp
 
       - name: Deploy Frontend to IIS
         run: |

@@ -79,10 +79,10 @@ jobs:
       - name: Deploy Backend
         run: |
           cd Backend/aspnet-core
-          dotnet publish --configuration Release --output "${GITHUB_WORKSPACE}/Backend/aspnet-core-publish"
+          dotnet publish --configuration Release --output .\Backend\aspnet-core-publish
           # Add your deployment steps here using the published output from the previous step
           iisreset /stop
-          xcopy /s /y "${GITHUB_WORKSPACE}/Backend/aspnet-core-publish/*" "C:\inetpub\wwwroot\backend-aspnet-core"
+          xcopy /s /y .\Backend\aspnet-core-publish\* "C:\inetpub\wwwroot\backend-aspnet-core"
           iisreset /start
 
       - name: Deploy Frontend to IIS

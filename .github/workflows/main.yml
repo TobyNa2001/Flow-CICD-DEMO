@@ -56,20 +56,6 @@ jobs:
           cd Frontend/angular
           npm start &
 
-      - name: Wait for 3 minutes
-        run: sleep 180
-
-      - name: Stop Npm start
-        run: |
-          # Find the process ID of the npm start command
-          pid=$(pgrep -f "npm start")
-      
-          # Terminate the process
-          if [[ -n "$pid" ]]; then
-            echo "Stopping npm start (PID: $pid)"
-            kill "$pid"
-          fi
-          
       - name: Check if npm start succeeded
         run: |
           if [ ${{ steps.start-app.outcome }} == 'success' ]; then

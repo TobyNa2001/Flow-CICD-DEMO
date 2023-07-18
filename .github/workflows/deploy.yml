@@ -79,9 +79,9 @@ jobs:
       - name: Deploy Backend
         run: |
           cd Backend/aspnet-core
-          dotnet publish --configuration Release
+          dotnet publish --configuration Release --output /test-cicd/Content
           # Add your deployment steps here using the published output from the previous step
-          dotnet publish -c Release -o ./myapp
+          
 
       - name: Deploy Frontend to IIS
         run: |

@@ -54,6 +54,7 @@ jobs:
         run: |
           cd Frontend/angular
           timeout 2m npm start
+          pkill -f "npm start"
 
       - name: Check if npm start succeeded
         run: |

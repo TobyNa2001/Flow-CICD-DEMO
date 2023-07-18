@@ -78,7 +78,7 @@ jobs:
 
       - name: Deploy Backend
         run: |
-          cd Backend\aspnet-core\aspnet-core\src\CompanyWebsite.Web.Host
+          cd Backend\aspnet-core\src\CompanyWebsite.Web.Host
           dotnet publish --configuration Release --output .\Backend\aspnet-core-publish
           # Add your deployment steps here using the published output from the previous step
           iisreset /stop
@@ -93,7 +93,7 @@ jobs:
           
 
   database:
-    needs: [backend]
+    needs: [deploy]
     runs-on: ubuntu-latest
 
     steps:

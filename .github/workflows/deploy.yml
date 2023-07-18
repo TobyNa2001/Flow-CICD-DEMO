@@ -38,12 +38,22 @@ jobs:
 
   backend:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        dotnet-version: ['6.0']
     steps:
-      - name: Checkout Backend Code
-        uses: actions/checkout@v2
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
         with:
-          path: Backend/aspnet-core
+          dotnet-version: ${{ matrix.dotnet-version }}
+          
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
       - name: Build Solution Backend
         env:

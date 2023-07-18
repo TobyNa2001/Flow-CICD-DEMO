@@ -53,20 +53,22 @@ jobs:
         id: start-app
         run: |
           cd Frontend/angular
-          # Start npm start in the background and redirect output to a log file
-          npm start > npm_start.log 2>&1 &
+          # Start npm start in the background
+          npm start &
           # Store the PID (Process ID) of the npm start process
           start_pid=$!
-      
-          # Wait for the background process to finish
-          wait $start_pid
-      
-          # Check the contents of the log file to determine if npm start succeeded or failed
-          if grep -q "Compiled successfully" npm_start.log; then
-            echo "npm start succeeded"
-            # Add additional steps for successful execution.
-          else
-            echo "npm start failed"
-            # Add additional steps or error handling here if needed.
-          fi
+          # Wait for two minutes (120 seconds)
+          sleep 120
+          # Kill the npm start process after two minutes
+          kill$start_pid"
+    
+          echo "$start_pid"
+          
+          exit_code=$?
+          if [ $start_pid -eq 0 ]; then
+               echo "npm start compilation was successful."
+             else
+               echo "npm start compilation failed with exit code $exit_code."
+             fi
+
 

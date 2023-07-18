@@ -8,54 +8,68 @@ on:
 jobs:
   frontend:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        dotnet-version: ['6.0']
     steps:
-      - name: Checkout Frontend Code
-        uses: actions/checkout@v2
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
         with:
-          path: Frontend/angular
+          dotnet-version: ${{ matrix.dotnet-version }}
+          
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-      - name: Build Frontend
+      - name: Npm install
         run: |
           cd Frontend/angular
           npm install
-          npm run build
+    
+      - name: Build Frontend
+        env:
+            # Accessing the secret variable
+            FTEST_PATH: ${{ secrets.FRONTEND_SOLUTION_PATH }}
+        run: dotnet build "${GITHUB_WORKSPACE}/${FTEST_PATH}"
 
   backend:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        dotnet-version: ['6.0']
     steps:
-      - name: Checkout Backend Code
-        uses: actions/checkout@v2
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
         with:
-          path: Backend/aspnet-core
-
-      - name: Restore NuGet Packages
-        run: dotnet restore Backend/aspnet-core/CompanyWebsite.sln
-
-      - name: Build Backend
-        run: |
-          cd Backend/aspnet-core
-          dotnet build --configuration Release
-
-  database:
-    needs: [backend]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Database Code
-        uses: actions/checkout@v2
+          dotnet-version: ${{ matrix.dotnet-version }}
+          
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          path: Backend/database
+          node-version: 14
+          
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-
-      - name: Update Database Migration
+      - name: Build Solution Backend
+        env:
+          # Accessing the secret variable
+          SOLUTION_PATH: ${{ secrets.BACKEND_SOLUTION_PATH }}
         run: |
-          cd Backend/database
-          dotnet ef database update --project ../aspnet-core/CompanyWebsite.csproj --startup-project ../aspnet-core/CompanyWebsite.csproj --configuration Release
+         dotnet build "${GITHUB_WORKSPACE}/${SOLUTION_PATH}"
+        
+      - name: Test Backend
+        env:
+          # Accessing the secret variable
+          TEST_PATH: ${{ secrets.BACKEND_TEST_PATH }}
+        run: dotnet test "${GITHUB_WORKSPACE}/${TEST_PATH}"
 
   deploy:
-    needs: [frontend, backend, database]
+    needs: [frontend, backend]
     runs-on: ubuntu-latest
 
     steps:
@@ -74,6 +88,23 @@ jobs:
           # Add your deployment steps here to deploy the frontend to IIS
           # Example:
           # - Copy the frontend build output to the IIS virtual directory
+
+
+  database:
+    needs: [backend]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Database Code
+        uses: actions/checkout@v2
+        with:
+          path: Backend/database
+
+
+      - name: Update Database Migration
+        run: |
+          cd Backend/database
+          dotnet ef database update --project ../aspnet-core/CompanyWebsite.csproj --startup-project ../aspnet-core/CompanyWebsite.csproj --configuration Release
 
   create-release:
     needs: [deploy]

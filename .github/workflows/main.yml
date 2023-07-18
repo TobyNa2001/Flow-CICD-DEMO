@@ -53,20 +53,29 @@ jobs:
         id: start-app
         run: |
           cd Frontend/angular
-          # Start npm start in the background
-          npm start &
+          # Start npm start in the background and capture the output and errors
+          npm start > npm_start_output.txt 2>&1 &
           # Store the PID (Process ID) of the npm start process
           start_pid=$!
+
           # Wait for two minutes (120 seconds)
           sleep 120
+
           # Kill the npm start process after two minutes
           kill $start_pid
-          # Capture the exit code after killing the process
+
+          # Wait for the process to finish and capture the exit code
+          wait $start_pid
           exit_code=$?
+
+          # Check the exit code and echo success or failure accordingly
           if [ $exit_code -eq 0 ]; then
-               echo "npm start compilation was successful $start_pid."
-             else
-               echo "npm start compilation failed with exit code $start_pid."
-             fi
+            echo "npm start compilation was successful."
+          else
+            echo "npm start compilation failed with exit code $exit_code."
+          fi
+
+          # Display the output of npm start for debugging purposes (optional)
+          cat npm_start_output.txt
 
 

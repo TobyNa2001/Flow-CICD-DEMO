@@ -54,19 +54,25 @@ jobs:
         run: |
           cd Frontend/angular
           # Start npm start in the background and capture the output and errors
-          npm start &
+          output=$(npm start 2>&1 &)
+
           # Store the PID (Process ID) of the npm start process
           start_pid=$!
 
           # Wait for two minutes (120 seconds)
           sleep 120
 
-          # Kill the npm start process after two minutes
-          exit_code=$?
-          kill $start_pid
-          
-          echo "$exit_code"
-      
-          
-      - name: Echo ID
-        run: echo "The ID of the previous step (start-app) is ${{ steps.start-app.outputs.id }}"
+          # Check if the npm start process is still running
+          if ps -p $start_pid > /dev/null; then
+            # If it's still running after two minutes, kill it
+            kill $start_pid
+          fi
+
+          # Check for errors in the output
+          if echo "$output" | grep -qi "error"; then
+            echo "npm start encountered an error."
+            exit 1
+          else
+            echo "npm start completed without errors."
+            # Add any additional actions if needed.
+          fi"

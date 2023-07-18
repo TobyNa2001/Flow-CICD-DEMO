@@ -78,7 +78,9 @@ jobs:
 
       - name: Deploy Backend
         run: |
+          cd Backend/aspnet-core/src/CompanyWebsite.Web.Host
           dotnet publish --configuration Release
+          
           
 
       - name: Deploy Frontend to IIS

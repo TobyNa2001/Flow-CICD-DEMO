@@ -61,7 +61,6 @@ jobs:
           sleep 120
           # Kill the npm start process after two minutes
           kill$start_pid
-          
           exit_code=$?
           if [ $exit_code -eq 0 ]; then
                echo "npm start compilation was successful."

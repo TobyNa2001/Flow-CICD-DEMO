@@ -90,7 +90,7 @@ jobs:
           # - Copy the frontend build output to the IIS virtual directory
 
 
-database:
+  database:
     needs: [backend]
     runs-on: ubuntu-latest
 

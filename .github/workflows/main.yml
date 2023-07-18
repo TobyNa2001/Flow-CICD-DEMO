@@ -64,15 +64,4 @@ jobs:
           # Kill the npm start process after two minutes
           kill $start_pid
 
-          # Wait for the process to finish and capture the exit code
-          wait $start_pid
-          exit_code=$?
-
-          # Check the exit code and echo success or failure accordingly
-          if [ $exit_code -eq 0 ]; then
-            echo "npm start compilation was successful $exit_code."
-          else
-            echo "npm start compilation failed with exit code $exit_code."
-          fi
-
 

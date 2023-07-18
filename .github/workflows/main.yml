@@ -48,19 +48,6 @@ jobs:
         run: |
             cd Frontend/angular
             npm install
-            
-      - name: Check Npm start status
-        run: |
-          cd Frontend/angular
-          # Use 'npm run' instead of 'npm start' to get the correct exit status
-          npm run
-          if [ $? -eq 0 ]; then
-            echo "npm start completed successfully!"
-            # Perform actions for successful compilation here
-          else
-            echo "npm start failed!"
-            # Perform actions for failed compilation here
-          fi   
           
       - name: Npm start
         id: start-app
@@ -74,3 +61,4 @@ jobs:
           sleep 120
           # Kill the npm start process after two minutes
           kill $start_pid
+      

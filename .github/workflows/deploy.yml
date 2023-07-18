@@ -78,12 +78,8 @@ jobs:
 
       - name: Deploy Backend
         run: |
-          cd Backend\aspnet-core\src\CompanyWebsite.Web.Host
-          dotnet publish --configuration Release --output .\Backend\aspnet-core-publish
-          # Add your deployment steps here using the published output from the previous step
-          iisreset /stop
-          xcopy /s /y .\Backend\aspnet-core-publish\* "C:\inetpub\wwwroot\backend-aspnet-core"
-          iisreset /start
+          dotnet publish --configuration Release
+          
 
       - name: Deploy Frontend to IIS
         run: |
@@ -109,7 +105,7 @@ jobs:
           dotnet ef database update --project ../aspnet-core/CompanyWebsite.csproj --startup-project ../aspnet-core/CompanyWebsite.csproj --configuration Release
 
   create-release:
-    needs: [deploy]
+    needs: [database]
     runs-on: ubuntu-latest
 
     steps:

@@ -49,7 +49,7 @@ jobs:
             cd Frontend/angular
             npm install
             
-      - name: Npm start
+      - name: Npmstart
         id: start-app
         run: |
           cd Frontend/angular
@@ -65,6 +65,7 @@ jobs:
           kill $start_pid
           
           exit_code=$?
+      
           
-          echo "${{ steps.start-app.id }}"
-
+      - name: Echo ID
+        run: echo "The ID of the previous step (start-app) is ${{ steps.start-app.outputs.id }}"

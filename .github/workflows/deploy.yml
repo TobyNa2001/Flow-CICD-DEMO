@@ -78,7 +78,7 @@ jobs:
 
       - name: Deploy Backend
         run: |
-          cd Backend/aspnet-core/src/CompanyWebsite.Web.Host
+          cd Backend/aspnet-core
           dotnet publish --configuration Release /p:PublishProfile=IISProfile
           
           
@@ -89,41 +89,3 @@ jobs:
           # Example:
           # - Copy the frontend build output to the IIS virtual directory
           
-
-  database:
-    needs: [deploy]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Database Code
-        uses: actions/checkout@v2
-        with:
-          path: Backend/database
-
-
-      - name: Update Database Migration
-        run: |
-          cd Backend/database
-          dotnet ef database update --project ../aspnet-core/CompanyWebsite.csproj --startup-project ../aspnet-core/CompanyWebsite.csproj --configuration Release
-
-  create-release:
-    needs: [database]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Create Release
-        uses: actions/create-release@v1
-        with:
-          tag_name: v1.0.0 # Replace with your desired tag name
-          release_name: Release v1.0.0 # Replace with your desired release name
-          draft: false
-          prerelease: false
-          target_commitish: ${{ github.sha }}
-          body: |
-            Release v1.0.0
-            - Added frontend deployment to IIS
-            - Added backend deployment using .NET Core CLI
-            - Updated database migration
-            - Created new release
-
-          token: ${{ secrets.GITHUB_TOKEN }} 

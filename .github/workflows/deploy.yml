@@ -68,24 +68,8 @@ jobs:
           TEST_PATH: ${{ secrets.BACKEND_TEST_PATH }}
         run: dotnet test "${GITHUB_WORKSPACE}/${TEST_PATH}"
 
-  database:
-    needs: [backend]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Database Code
-        uses: actions/checkout@v2
-        with:
-          path: Backend/database
-
-
-      - name: Update Database Migration
-        run: |
-          cd Backend/database
-          dotnet ef database update --project ../aspnet-core/CompanyWebsite.csproj --startup-project ../aspnet-core/CompanyWebsite.csproj --configuration Release
-
   deploy:
-    needs: [frontend, backend, database]
+    needs: [frontend, backend]
     runs-on: ubuntu-latest
 
     steps:
@@ -104,6 +88,23 @@ jobs:
           # Add your deployment steps here to deploy the frontend to IIS
           # Example:
           # - Copy the frontend build output to the IIS virtual directory
+
+
+database:
+    needs: [backend]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Database Code
+        uses: actions/checkout@v2
+        with:
+          path: Backend/database
+
+
+      - name: Update Database Migration
+        run: |
+          cd Backend/database
+          dotnet ef database update --project ../aspnet-core/CompanyWebsite.csproj --startup-project ../aspnet-core/CompanyWebsite.csproj --configuration Release
 
   create-release:
     needs: [deploy]

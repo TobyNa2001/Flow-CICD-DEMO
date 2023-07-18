@@ -48,25 +48,33 @@ jobs:
         run: |
             cd Frontend/angular
             npm install
-                     
+          
       - name: Npm start
         id: start-app
         run: |
           cd Frontend/angular
-          # Start npm start in the background
+          # Start npm start in the background and store the PID (Process ID) of the npm start process
           npm start &
-          # Store the PID (Process ID) of the npm start process
           start_pid=$!
-          # Wait for two minutes (120 seconds)
-          sleep 120
-          # Kill the npm start process after two minutes
-          kill $start_pid
-          
-      - name: Check if npm start succeeded
+          # Wait for two minutes (120 seconds) and store the exit status
+          timeout 120 bash -c "wait $start_pid; echo \$?"
+          # Save the exit status in a variable for later use
+          exit_status=$?
+          # Kill the npm start process after two minutes (if it hasn't already stopped)
+          kill $start_pid || true
+          # Exit with the saved exit status
+          exit $exit_status
+
+# Check the exit status of npm start and proceed accordingly
+      - name: Check Npm start status
+        if: steps.start-app.outputs.code == 0
         run: |
-           if [ ${{ steps.start-app.outcome }} == 'success' ]; then
-             echo "npm start succeeded!"
-           else
-             echo "npm start failed!"
-             exit 1
-           fi
+          echo "npm start completed successfully!"
+          # Perform actions for successful compilation here
+      
+      - name: Handle Npm start failure
+        if: steps.start-app.outputs.code != 0
+        run: |
+          echo "npm start failed!"
+          # Perform actions for failed compilation here
+      

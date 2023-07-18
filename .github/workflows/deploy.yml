@@ -15,11 +15,16 @@ jobs:
         with:
           path: Frontend/angular
 
-      - name: Build Frontend
+      - name: Npm install
         run: |
           cd Frontend/angular
           npm install
-          npm run build
+    
+      - name: Build Frontend
+        env:
+            # Accessing the secret variable
+            FTEST_PATH: ${{ secrets.FRONTEND_SOLUTION_PATH }}
+        run: dotnet build "${GITHUB_WORKSPACE}/${FTEST_PATH}"
 
   backend:
     runs-on: ubuntu-latest
@@ -30,12 +35,18 @@ jobs:
         with:
           path: Backend/aspnet-core
 
-
-
-      - name: Build Backend
+      - name: Build Solution Backend
+        env:
+          # Accessing the secret variable
+          SOLUTION_PATH: ${{ secrets.BACKEND_SOLUTION_PATH }}
         run: |
-          cd Backend/aspnet-core
-          dotnet build --configuration Release
+         dotnet build "${GITHUB_WORKSPACE}/${SOLUTION_PATH}"
+        
+      - name: Test Backend
+        env:
+          # Accessing the secret variable
+          TEST_PATH: ${{ secrets.BACKEND_TEST_PATH }}
+        run: dotnet test "${GITHUB_WORKSPACE}/${TEST_PATH}"
 
   database:
     needs: [backend]

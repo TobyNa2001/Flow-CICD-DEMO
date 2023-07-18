@@ -62,9 +62,9 @@ jobs:
           sleep 120
 
           # Kill the npm start process after two minutes
+          exit_code=$?
           kill $start_pid
           
-          exit_code=$?
       
           
       - name: Echo ID

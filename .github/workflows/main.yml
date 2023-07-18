@@ -49,26 +49,28 @@ jobs:
             cd Frontend/angular
             npm install
             
-      - name: Npm start
+      - name: Npmstart
         id: start-app
         run: |
           cd Frontend/angular
-          # Start npm start in the background
-          npm start &
-          # Store the PID (Process ID) of the npm start process
+      
+          output_file=$(mktemp)
+      
+          npm start > "$output_file" 2>&1 &
+      
           start_pid=$!
-          # Wait for two minutes (120 seconds)
+      
           sleep 120
-          # Kill the npm start process after two minutes
-          kill$start_pid"
-    
-          echo "$start_pid"
-          
-          exit_code=$?
-          if [ $start_pid -eq 0 ]; then
-               echo "npm start compilation was successful."
-             else
-               echo "npm start compilation failed with exit code $exit_code."
-             fi
-
-
+      
+          if ps -p $start_pid > /dev/null; then
+            kill $start_pid
+          fi
+      
+          if grep -qi "error" "$output_file"; then
+            echo "npm start encountered an error."
+            exit 1
+          else
+            echo "npm start completed without errors."
+          fi
+      
+          rm "$output_file"

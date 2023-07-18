@@ -70,7 +70,7 @@ jobs:
 
   deploy:
     needs: [frontend, backend]
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout Code
@@ -78,20 +78,20 @@ jobs:
 
       - name: Deploy Backend
         run: |
-          cd Backend/aspnet-core
-          dotnet publish --configuration Release
-          # Add your deployment steps here using the published output from the previous step
-          dotnet publish -c Release -o ./myapp
+          cd Backend/aspnet-core/src/CompanyWebsite.Web.Host
+          dotnet publish --configuration Release /p:PublishProfile=IISProfile
+          
+          
 
       - name: Deploy Frontend to IIS
         run: |
           # Add your deployment steps here to deploy the frontend to IIS
           # Example:
           # - Copy the frontend build output to the IIS virtual directory
-
+          
 
   database:
-    needs: [backend]
+    needs: [deploy]
     runs-on: ubuntu-latest
 
     steps:
@@ -107,7 +107,7 @@ jobs:
           dotnet ef database update --project ../aspnet-core/CompanyWebsite.csproj --startup-project ../aspnet-core/CompanyWebsite.csproj --configuration Release
 
   create-release:
-    needs: [deploy]
+    needs: [database]
     runs-on: ubuntu-latest
 
     steps:

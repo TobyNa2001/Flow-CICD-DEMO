@@ -79,7 +79,7 @@ jobs:
       - name: Deploy Backend
         run: |
           cd Backend/aspnet-core
-          dotnet publish --configuration Release --output /test-cicd/Content
+          dotnet publish --configuration Release --output backendPublish .\Backend\aspnet-core
           # Add your deployment steps here using the published output from the previous step
           
 
@@ -88,7 +88,9 @@ jobs:
           # Add your deployment steps here to deploy the frontend to IIS
           # Example:
           # - Copy the frontend build output to the IIS virtual directory
-
+          iisreset /stop
+          Copy-Item ./backendPublish/* C:/inetpub/wwwroot/backend-aspnet-core -Recurse -Force
+          iisreset /start
 
   database:
     needs: [backend]

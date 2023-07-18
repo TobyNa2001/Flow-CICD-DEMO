@@ -62,11 +62,7 @@ jobs:
           # Wait for two minutes (120 seconds)
           sleep 120
 
-          # Check if the npm start process is still running
-          if ps -p $start_pid > /dev/null; then
-            # If it's still running after two minutes, kill it
-            kill $start_pid
-          fi
+          kill $start_pid
 
           # Check for errors in the output
           if echo "$output" | grep -qi "error"; then

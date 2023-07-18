@@ -64,9 +64,9 @@ jobs:
           # Capture the exit code after killing the process
           exit_code=$?
           if [ $exit_code -eq 0 ]; then
-               echo "npm start compilation was successful $exit_code."
+               echo "npm start compilation was successful $start_pid."
              else
-               echo "npm start compilation failed with exit code $exit_code."
+               echo "npm start compilation failed with exit code $start_pid."
              fi
 
 

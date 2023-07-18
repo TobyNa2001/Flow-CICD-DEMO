@@ -53,22 +53,34 @@ jobs:
         id: start-app
         run: |
           cd Frontend/angular
-          # Start npm start in the background and capture the output and errors
-          output=$(npm start 2>&1 &)
-
+      
+          # Create a temporary file to capture the output and errors
+          output_file=$(mktemp)
+      
+          # Start npm start in the background and redirect output and errors to the file
+          npm start > "$output_file" 2>&1 &
+      
           # Store the PID (Process ID) of the npm start process
           start_pid=$!
-
+      
           # Wait for two minutes (120 seconds)
           sleep 120
-
-          kill $start_pid
-
-          # Check for errors in the output
-          if echo "$output" | grep -qi "error"; then
+      
+          # Check if the npm start process is still running
+          if ps -p $start_pid > /dev/null; then
+            # If it's still running after two minutes, kill it
+            kill $start_pid
+          fi
+      
+          # Check for errors in the output file
+          if grep -qi "error" "$output_file"; then
             echo "npm start encountered an error."
+            # Optionally, you can print the error messages using: cat "$output_file"
             exit 1
           else
             echo "npm start completed without errors."
             # Add any additional actions if needed.
-          fi"
+          fi
+      
+          # Remove the temporary output file
+          rm "$output_file"

@@ -64,7 +64,6 @@ jobs:
           # Kill the npm start process after two minutes
           kill $start_pid
           
-          wait $start_pid
           exit_code=$?
           
           echo "$exit_code"

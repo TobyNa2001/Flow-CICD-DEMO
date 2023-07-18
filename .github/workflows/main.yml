@@ -53,7 +53,7 @@ jobs:
         id: start-app
         run: |
           cd Frontend/angular
-          npm start &
+          npm start
 
       - name: Check if npm start succeeded
         run: |

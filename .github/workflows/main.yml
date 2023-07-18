@@ -65,6 +65,7 @@ jobs:
           exit_code=$?
           kill $start_pid
           
+          echo "$exit_code"
       
           
       - name: Echo ID

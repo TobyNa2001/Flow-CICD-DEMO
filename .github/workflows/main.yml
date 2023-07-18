@@ -59,7 +59,7 @@ jobs:
           start_pid=$!
 
           # Wait for two minutes (120 seconds)
-          sleep 120
+          sleep 240
 
           # Kill the npm start process after two minutes
           kill $start_pid

@@ -57,8 +57,16 @@ jobs:
           npm start &
           # Store the PID (Process ID) of the npm start process
           start_pid=$!
-          # Wait for two minutes (120 seconds)
-          sleep 120
-          # Kill the npm start process after two minutes
-          kill $start_pid
+      
+          # Wait for the background process to finish and capture its exit status
+          wait $start_pid
+          exit_status=$?
+      
+          # Check the exit status to determine if npm start succeeded or failed
+          if [ $exit_status -eq 0 ]; then
+            echo "npm start succeeded"
+          else
+            echo "npm start failed"
+            # You can add additional steps or error handling here if needed.
+          fi
       

@@ -59,12 +59,12 @@ jobs:
           start_pid=$!
 
           # Wait for two minutes (120 seconds)
-          sleep 240
+          sleep 120
 
           # Kill the npm start process after two minutes
           kill $start_pid
           
           exit_code=$?
           
-          echo "$exit_code"
+          echo "${{ steps.start-app.id }}"
 

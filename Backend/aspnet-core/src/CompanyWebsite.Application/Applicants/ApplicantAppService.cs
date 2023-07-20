@@ -21,7 +21,7 @@ namespace CompanyWebsite.Applicants
     [AllowAnonymous]
     public class ApplicantAppService : CompanyWebsiteAppServiceBase, IApplicationService // TanahMuAppServiceBase, 
     {
-        private readonly ApplicantMantManager;
+        private readonly ApplicantManager _applicantManager;
         private readonly DocumentManager _documentManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly EmailQueuesManager _emailQueuesManager;

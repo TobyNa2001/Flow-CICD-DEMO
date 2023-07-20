@@ -47,7 +47,7 @@ jobs:
         id: download-frontend
         uses: actions/download-artifact@v2
         with:
-          name: frontend-artifac
+          name: frontend-artifact
           path: frontend-dist
 
       - name: Copy Frontend build to FrontendDist

@@ -33,7 +33,7 @@ jobs:
       - name: Build Frontend
         run: |
            cd Frontend/angular
-           ng build
+           npx ng build
 
       - name: Archive Frontend build
         uses: actions/upload-artifact@v2

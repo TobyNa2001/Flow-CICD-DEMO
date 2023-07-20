@@ -1,0 +1,16 @@
+name: Setup MSDeploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-msdeploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install MSDeploy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mono-devel
+          sudo apt-get install -y msdeploy
+          echo "MSDeploy installed successfully"

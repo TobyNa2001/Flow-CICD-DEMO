@@ -1,12 +1,12 @@
-name: Deploy Application
+name: CICD-Frontend
 
 on:
   push:
     branches:
       - main
-
-jobs:
-  frontend:
+ 
+jobs: 
+  Frontend:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -24,19 +24,78 @@ jobs:
           
       - name: Checkout Repository
         uses: actions/checkout@v2
-
-      - name: Npm install
-        run: |
-          cd Frontend/angular
-          npm install
-    
+      
       - name: Build Frontend
         env:
-          # Accessing the secret variable
-          FTEST_PATH: ${{ secrets.FRONTEND_SOLUTION_PATH }}
+            # Accessing the secret variable
+            FTEST_PATH: ${{ secrets.FRONTEND_SOLUTION_PATH }}
         run: dotnet build "${GITHUB_WORKSPACE}/${FTEST_PATH}"
+    
+      - name: Npm install
+        run: |
+            cd Frontend/angular
+            npm install
+            
+      - name: Npmstart
+        id: start-app
+        run: |
+          cd Frontend/angular
+      
+          output_file=$(mktemp)
+      
+          npm start > "$output_file" 2>&1 &
+      
+          start_pid=$!
+      
+          sleep 120
+      
+          if ps -p $start_pid > /dev/null; then
+            kill $start_pid
+          fi
+      
+          if grep -qi "error" "$output_file"; then
+            echo "npm start encountered an error."
+            exit 1
+          else
+            echo "npm start completed without errors."
+          fi
+      
+          rm "$output_file"
+            
+      - name: Build Frontend
+        run: |
+           cd Frontend/angular
+           npx ng build
 
-  backend:
+      - name: Archive Frontend build
+        env:
+            # Accessing the secret variable
+            FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
+        uses: actions/upload-artifact@v2
+        with:
+           name: frontend-artifact
+           path: "${{ github.workspace }}/Frontend/angular/FrontendDist"
+           
+      - name: Download Frontend artifact
+        uses: actions/download-artifact@v2
+        with:
+            name: frontend-artifact
+            path: frontend-dist
+
+      - name: Copy Frontend build to FrontendDist
+        env:
+            # Accessing the secret variable
+            FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
+        run: cp -R frontend-dist/* "${{ github.workspace }}/${FBUILD_PATH}"
+      
+      - name: Display contents of FrontendDist
+        env:
+            # Accessing the secret variable
+            FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
+        run: ls -R "${{ github.workspace }}/${FBUILD_PATH}"   
+        
+  Backend:
+    needs: [Frontend]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -54,22 +113,22 @@ jobs:
           
       - name: Checkout Repository
         uses: actions/checkout@v2
-
+        
       - name: Build Solution Backend
         env:
           # Accessing the secret variable
           SOLUTION_PATH: ${{ secrets.BACKEND_SOLUTION_PATH }}
         run: |
-          dotnet build "${GITHUB_WORKSPACE}/${SOLUTION_PATH}"
-        
-      - name: Test Backend
+         dotnet build "${GITHUB_WORKSPACE}/${SOLUTION_PATH}"
+         
+      - name: Test test Backend
         env:
           # Accessing the secret variable
           TEST_PATH: ${{ secrets.BACKEND_TEST_PATH }}
         run: dotnet test "${GITHUB_WORKSPACE}/${TEST_PATH}"
-
+        
   deploy:
-    needs: [frontend, backend]
+    needs: [Frontend, Backend]
     runs-on: windows-latest
 
     steps:
@@ -81,22 +140,4 @@ jobs:
           cd Backend/aspnet-core/src/CompanyWebsite.Web.Host
           #dotnet publish CompanyWebsite.Web.Host.csproj /p:PublishProfile=./Properties/PublishProfiles/IISProfile.pubxml --configuration Release 
           dotnet publish CompanyWebsite.Web.Host.csproj --configuration Release --output ./publish /p:WebPublishMethod=MSDeploy /p:DeployIisAppPath="${{ secrets.IIS_NAME }}" /p:MSDeployServiceURL="${{ secrets.IIS_URL }}" /p:UserName="${{ secrets.IIS_USERNAME}}" /p:Password="${{ secrets.IIS_PASSWORD}}" /p:AllowUntrustedCertificate=true
-          
-      - name: Copy Published Files to IIS Server
-        run: |
-          # Use SCP to copy the published files to the remote IIS server
-          # Replace the placeholders with your actual server information
-          #scp -r ./Backend/aspnet-core/src/CompanyWebsite.Web.Host/bin/Release/net6.0/publish/* username@your_server_ip:/path/to/iis/website
-
-      - name: Restart IIS on Remote Server
-        run: |
-          # Use SSH or any other method to restart IIS on the remote server
-          # Replace the placeholders with your actual server information
-          #ssh username@your_server_ip "iisreset /restart"
-
-      - name: Deploy Frontend to IIS
-        run: |
-          # Add your deployment steps here to deploy the frontend to IIS
-          # Example:
-          # - Copy the frontend build output to the IIS virtual directory
           

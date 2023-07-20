@@ -21,7 +21,7 @@ namespace CompanyWebsite.Applicants
     [AllowAnonymous]
     public class ApplicantAppService : CompanyWebsiteAppServiceBase, IApplicationService // TanahMuAppServiceBase, 
     {
-        private readonly ApplicantManager _applicantManager;
+        private readonly ApplicantMantManager;
         private readonly DocumentManager _documentManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly EmailQueuesManager _emailQueuesManager;
@@ -41,7 +41,7 @@ namespace CompanyWebsite.Applicants
 
         // GET
         [DontWrapResult]
-        public async Task<List<ApplicantDto>> GetAllApplicantqwe()
+        public async Task<List<ApplicantDto>> GetAllApplicant()
         {
             List<Applicant> applicants = await _applicantManager.GetAllApplicantAsync();
 

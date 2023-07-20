@@ -40,3 +40,15 @@ jobs:
         with:
            name: frontend-artifact
            path: "${{ github.workspace }}/Frontend/angular/FrontendDist"
+           
+      - name: Download Frontend artifact
+        uses: actions/download-artifact@v2
+        with:
+            name: frontend-artifact
+            path: frontend-dist
+
+      - name: Copy Frontend build to FrontendDist
+        run: cp -R frontend-dist/* "${{ github.workspace }}/Frontend/angular/FrontendDist/"
+      
+      - name: Display contents of FrontendDist
+        run: ls -R "${{ github.workspace }}/Frontend/angular/FrontendDist"

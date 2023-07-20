@@ -41,13 +41,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: frontend-artifact
-          path: "${{ github.workspace }}/Frontend/angular"
+          path: "${{ github.workspace }}/Frontend/angular/dist"
 
       - name: Download Frontend artifact
         id: download-frontend
         uses: actions/download-artifact@v2
         with:
-          name: frontend-artifact
+          name: frontend-artifac
           path: frontend-dist
 
       - name: Copy Frontend build to FrontendDist

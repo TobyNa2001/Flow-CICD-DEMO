@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: frontend-artifact
-          path: "${{ github.workspace }}/Frontend/angular/dist"
+          path: "${{ github.workspace }}/Frontend/angular"
 
       - name: Download Frontend artifact
         id: download-frontend

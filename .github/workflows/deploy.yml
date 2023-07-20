@@ -32,8 +32,8 @@ jobs:
     
       - name: Build Frontend
         env:
-            # Accessing the secret variable
-            FTEST_PATH: ${{ secrets.FRONTEND_SOLUTION_PATH }}
+          # Accessing the secret variable
+          FTEST_PATH: ${{ secrets.FRONTEND_SOLUTION_PATH }}
         run: dotnet build "${GITHUB_WORKSPACE}/${FTEST_PATH}"
 
   backend:
@@ -60,7 +60,7 @@ jobs:
           # Accessing the secret variable
           SOLUTION_PATH: ${{ secrets.BACKEND_SOLUTION_PATH }}
         run: |
-         dotnet build "${GITHUB_WORKSPACE}/${SOLUTION_PATH}"
+          dotnet build "${GITHUB_WORKSPACE}/${SOLUTION_PATH}"
         
       - name: Test Backend
         env:
@@ -76,13 +76,23 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Deploy Backend
+      - name: Deploy Backend to IIS
         run: |
           cd Backend/aspnet-core/src/CompanyWebsite.Web.Host
-          dotnet publish CompanyWebsite.Web.Host.csproj /p:PublishProfile=./Properties/PublishProfiles/IISProfile.pubxml --configuration Release 
+          #dotnet publish CompanyWebsite.Web.Host.csproj /p:PublishProfile=./Properties/PublishProfiles/IISProfile.pubxml --configuration Release 
+          dotnet publish CompanyWebsite.Web.Host.csproj --configuration Release --output ./publish /p:WebPublishMethod=MSDeploy /p:DeployIisAppPath="Test-CICD" /p:MSDeployServiceURL="https://test-cicd.gatekeeper.com.my" /p:UserName="test-cicd-2023" /p:Password="8dge@8dge" /p:AllowUntrustedCertificate=true
+          
+      - name: Copy Published Files to IIS Server
+        run: |
+          # Use SCP to copy the published files to the remote IIS server
+          # Replace the placeholders with your actual server information
+          #scp -r ./Backend/aspnet-core/src/CompanyWebsite.Web.Host/bin/Release/net6.0/publish/* username@your_server_ip:/path/to/iis/website
 
-          
-          
+      - name: Restart IIS on Remote Server
+        run: |
+          # Use SSH or any other method to restart IIS on the remote server
+          # Replace the placeholders with your actual server information
+          #ssh username@your_server_ip "iisreset /restart"
 
       - name: Deploy Frontend to IIS
         run: |

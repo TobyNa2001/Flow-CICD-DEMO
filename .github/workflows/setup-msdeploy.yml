@@ -1,0 +1,17 @@
+name: Setup MSDeploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-msdeploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install MSDeploy
+        run: |
+          wget https://download.microsoft.com/download/0/1/D/01D06854-CA0C-46F1-ADBA-EBF86010DCC6/WebDeploy_amd64_en-US.msi -O msdeploy.msi
+          sudo apt-get update
+          sudo apt-get install -y gdebi
+          sudo gdebi -n msdeploy.msi
+          echo "MSDeploy installed successfully"

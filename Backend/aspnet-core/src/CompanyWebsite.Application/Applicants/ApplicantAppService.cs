@@ -1,4 +1,4 @@
-﻿using Abp.Application.Services;
+l﻿using Abp.Application.Services;
 using Abp.UI;
 using CompanyWebsite.Careers.Dto;
 using CompanyWebsite.Careers;
@@ -41,7 +41,7 @@ namespace CompanyWebsite.Applicants
 
         // GET
         [DontWrapResult]
-        public async Task<List<ApplicantDto>> GetAllApplicant()
+        public async Task<List<ApplicantDto>> GetAllApplicanthello()
         {
             List<Applicant> applicants = await _applicantManager.GetAllApplicantAsync();
 

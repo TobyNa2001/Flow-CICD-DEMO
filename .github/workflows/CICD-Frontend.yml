@@ -91,7 +91,7 @@ jobs:
       - name: Display contents of FrontendDist
         env:
             # Accessing the secret variable
-            FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }
+            FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
         run: ls -R "${{ github.workspace }}/${FBUILD_PATH}"   
         
   Backend:

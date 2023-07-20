@@ -41,7 +41,7 @@ namespace CompanyWebsite.Applicants
 
         // GET
         [DontWrapResult]
-        public async Task<List<ApplicantDto>> GetAllApplicantqwe123()
+        public async Task<List<ApplicantDto>> GetAllApplicant()
         {
             List<Applicant> applicants = await _applicantManager.GetAllApplicantAsync();
 

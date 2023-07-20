@@ -47,18 +47,30 @@ jobs:
       - name: Npm install
         run: |
             cd Frontend/angular
-
-      - name: Npm start
+            npm install
+            
+      - name: Npmstart
         id: start-app
         run: |
           cd Frontend/angular
-          npm start
-        
-      - name: Check if npm start succeeded
-        run: |
-          if [ ${{ steps.start-app.outcome }} == 'success' ]; then
-            echo "npm start succeeded!"
-          else
-            echo "npm start failed!"
-            exit 1
+      
+          output_file=$(mktemp)
+      
+          npm start > "$output_file" 2>&1 &
+      
+          start_pid=$!
+      
+          sleep 120
+      
+          if ps -p $start_pid > /dev/null; then
+            kill $start_pid
           fi
+      
+          if grep -qi "error" "$output_file"; then
+            echo "npm start encountered an error."
+            exit 1
+          else
+            echo "npm start completed without errors."
+          fi
+      
+          rm "$output_file"

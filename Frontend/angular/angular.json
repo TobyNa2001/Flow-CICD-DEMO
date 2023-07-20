@@ -78,6 +78,15 @@
                 }
               ]
             },
+            "github": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "outputPath": "C:/Users/suppo/Downloads/Flow-CICD-DEMO/Backend/aspnet-core/src/CompanyWebsite.Web.Host/wwwroot/Github"
+            },
             "hmr": {
               "budgets": [
                 {

@@ -27,7 +27,7 @@ namespace CompanyWebsite.Applicants
         private readonly EmailQueuesManager _emailQueuesManager;
 
         public ApplicantAppService(
-            ApplicantManager applicantManager,
+            ApplicantManager ,
             DocumentManager documentManager,
             IHttpContextAccessor httpContextAccessor,
             EmailQueuesManager emailQueuesManager

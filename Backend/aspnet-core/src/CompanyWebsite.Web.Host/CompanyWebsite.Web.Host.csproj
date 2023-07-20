@@ -45,5 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\Documents\Applicant\" />
+    <Folder Include="wwwroot\FrontendDist\" />
   </ItemGroup>
 </Project>

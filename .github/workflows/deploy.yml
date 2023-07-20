@@ -80,7 +80,7 @@ jobs:
         run: |
           cd Backend/aspnet-core/src/CompanyWebsite.Web.Host
           #dotnet publish CompanyWebsite.Web.Host.csproj /p:PublishProfile=./Properties/PublishProfiles/IISProfile.pubxml --configuration Release 
-          dotnet publish CompanyWebsite.Web.Host.csproj --configuration Release --output ./publish /p:WebPublishMethod=MSDeploy /p:DeployIisAppPath="Test-CICD" /p:MSDeployServiceURL="https://test-cicd.gatekeeper.com.my" /p:UserName="test-cicd-2023" /p:Password="8dge@8dge" /p:AllowUntrustedCertificate=true
+          dotnet publish CompanyWebsite.Web.Host.csproj --configuration Release --output ./publish /p:WebPublishMethod=MSDeploy /p:DeployIisAppPath="${{ secrets.IIS_NAME }}" /p:MSDeployServiceURL="${{ secrets.IIS_URL }}" /p:UserName="${{ secrets.IIS_USERNAME}}" /p:Password="${{ secrets.IIS_PASSWORD}}" /p:AllowUntrustedCertificate=true
           
       - name: Copy Published Files to IIS Server
         run: |

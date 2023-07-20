@@ -24,43 +24,6 @@ jobs:
           
       - name: Checkout Repository
         uses: actions/checkout@v2
-        
-      - name: Build Frontend
-        env:
-            # Accessing the secret variable
-            FTEST_PATH: ${{ secrets.FRONTEND_SOLUTION_PATH }}
-        run: dotnet build "${GITHUB_WORKSPACE}/${FTEST_PATH}"
-    
-      - name: Npm install
-        run: |
-            cd Frontend/angular
-            npm install
-            
-      - name: Npmstart
-        id: start-app
-        run: |
-          cd Frontend/angular
-      
-          output_file=$(mktemp)
-      
-          npm start > "$output_file" 2>&1 &
-      
-          start_pid=$!
-      
-          sleep 120
-      
-          if ps -p $start_pid > /dev/null; then
-            kill $start_pid
-          fi
-      
-          if grep -qi "error" "$output_file"; then
-            echo "npm start encountered an error."
-            exit 1
-          else
-            echo "npm start completed without errors."
-          fi
-      
-          rm "$output_file"
           
       - name: Build Frontend
         run: |
@@ -74,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
            name: frontend-artifact
-           path: "${{ github.workspace }}/Frontend/angular/FrontendDist"
+           path: "${{ github.workspace }}/Backend/aspnet-core/src/CompanyWebsite.Web.Host/wwwroot"
            
       - name: Download Frontend artifact
         uses: actions/download-artifact@v2
@@ -86,7 +49,7 @@ jobs:
         env:
                 # Accessing the secret variable
                 FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
-        run: cp -R frontend-dist/* "${{ github.workspace }}/Frontend/angular/FrontendDist"
+        run: cp -R frontend-dist/* "${{ github.workspace }}/Backend/aspnet-core/src/CompanyWebsite.Web.Host/wwwroot"
       
       - name: Display contents of FrontendDist
         run: ls -R "${{ github.workspace }}/Frontend/angular/FrontendDist"   

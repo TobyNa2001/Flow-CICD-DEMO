@@ -74,7 +74,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
            name: frontend-artifact
-           path: "${{ github.workspace }}/Backend/aspnet-core/src/CompanyWebsite.Web.Host/wwwroot"
+           path: "${{ github.workspace }}/Frontend/angular/FrontendDist"
            
       - name: Download Frontend artifact
         uses: actions/download-artifact@v2

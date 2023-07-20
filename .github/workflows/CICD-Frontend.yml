@@ -24,7 +24,12 @@ jobs:
           
       - name: Checkout Repository
         uses: actions/checkout@v2
-          
+      
+      - name: Npm install
+        run: |
+            cd Frontend/angular
+            npm install
+            
       - name: Build Frontend
         run: |
            cd Frontend/angular

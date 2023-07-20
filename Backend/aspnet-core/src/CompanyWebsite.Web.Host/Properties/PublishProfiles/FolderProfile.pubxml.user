@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\SA\Desktop\Completed 8dge website\CompanyWebsite\8.1.0\aspnet-core\src\CompanyWebsite.Web.Host\bin\Release\net7.0\publish\</_PublishTargetUrl>
+    <History>True|2023-07-12T02:23:07.5856704Z;True|2023-07-06T09:44:47.3059444+08:00;True|2023-07-05T16:54:46.4647641+08:00;True|2023-07-05T15:55:48.2612908+08:00;True|2023-07-05T15:03:41.3391003+08:00;True|2023-07-05T11:19:36.3462593+08:00;True|2023-07-04T15:07:53.3309356+08:00;True|2023-07-04T13:22:48.8856203+08:00;True|2023-07-03T14:36:29.6375890+08:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

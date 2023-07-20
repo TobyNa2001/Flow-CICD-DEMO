@@ -1,0 +1,68 @@
+name: Error Handling
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ['6.0']
+    steps:
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Npm install
+        run: |
+            cd Frontend/angular
+            npm install
+            
+      - name: Archive Frontend build
+        env:
+          FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: frontend-artifact
+          path: "${{ github.workspace }}/Frontend/angular/FrontendDist"
+
+      - name: Download Frontend artifact
+        id: download-frontend
+        uses: actions/download-artifact@v2
+        with:
+          name: frontend-artifact
+          path: frontend-dist
+
+      - name: Copy Frontend build to FrontendDist
+        env:
+          FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
+        run: cp -R frontend-dist/* "${{ github.workspace }}/${FBUILD_PATH}"
+
+      - name: Display contents of FrontendDist
+        env:
+          FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
+        run: ls -R "${{ github.workspace }}/${FBUILD_PATH}"
+
+      - name: Check errors and exit with failure code if needed
+        run: |
+          if [ ${{ steps.download-frontend.outcome }} == 'failure' ]; then
+            echo "Error: Frontend artifact download failed."
+            exit 1
+          fi
+
+          if [ ${{ steps.copy-frontend.outcome }} == 'failure' ]; then
+            echo "Error: Copying Frontend build failed."
+            exit 1
+          fi

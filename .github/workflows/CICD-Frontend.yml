@@ -127,4 +127,17 @@ jobs:
           TEST_PATH: ${{ secrets.BACKEND_TEST_PATH }}
         run: dotnet test "${GITHUB_WORKSPACE}/${TEST_PATH}"
         
-     
+  deploy:
+    needs: [Frontend, Backend]
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Deploy Backend to IIS
+        run: |
+          cd Backend/aspnet-core/src/CompanyWebsite.Web.Host
+          #dotnet publish CompanyWebsite.Web.Host.csproj /p:PublishProfile=./Properties/PublishProfiles/IISProfile.pubxml --configuration Release 
+          dotnet publish CompanyWebsite.Web.Host.csproj --configuration Release --output ./publish /p:WebPublishMethod=MSDeploy /p:DeployIisAppPath="${{ secrets.IIS_NAME }}" /p:MSDeployServiceURL="${{ secrets.IIS_URL }}" /p:UserName="${{ secrets.IIS_USERNAME}}" /p:Password="${{ secrets.IIS_PASSWORD}}" /p:AllowUntrustedCertificate=true
+          

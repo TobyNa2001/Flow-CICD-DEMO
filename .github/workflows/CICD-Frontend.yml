@@ -69,8 +69,8 @@ jobs:
 
       - name: Archive Frontend build
         env:
-              # Accessing the secret variable
-              FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
+            # Accessing the secret variable
+            FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
         uses: actions/upload-artifact@v2
         with:
            name: frontend-artifact

@@ -78,8 +78,8 @@ jobs:
 
       - name: Deploy Backend
         run: |
-          cd Backend/aspnet-core
-          dotnet publish --configuration Release /p:PublishProfile=Properties/PublishProfiles/IISProfile.pubxml
+          cd Backend/aspnet-core/src/CompanyWebsite.Web.Host
+          dotnet publish CompanyWebsite.Web.Host.csproj --configuration Release /p:PublishProfile=./Properties/PublishProfiles/IISProfile.pubxml
 
           
           

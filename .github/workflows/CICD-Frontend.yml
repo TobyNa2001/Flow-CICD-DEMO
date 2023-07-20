@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
            name: frontend-artifact
-           path: "${{ github.workspace }}/Backend/aspnet-core/src/CompanyWebsite.Web.Host/wwwroot"
+           path: "${{ github.workspace }}/${FBUILD_PATH}"
            
       - name: Download Frontend artifact
         uses: actions/download-artifact@v2
@@ -52,9 +52,9 @@ jobs:
 
       - name: Copy Frontend build to FrontendDist
         env:
-                # Accessing the secret variable
-                FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
-        run: cp -R frontend-dist/* "${{ github.workspace }}/Backend/aspnet-core/src/CompanyWebsite.Web.Host/wwwroot"
+            # Accessing the secret variable
+            FFBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
+        run: cp -R frontend-dist/* "${{ github.workspace }}/${FFBUILD_PATH}"
       
       - name: Display contents of FrontendDist
         run: ls -R "${{ github.workspace }}/Frontend/angular/FrontendDist"   

@@ -39,4 +39,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
            name: frontend-artifact
-           path: "dist/${GITHUB_WORKSPACE}/Frontend/angular/FrontendDist/dist"
+           path: dist/my-awesome-app

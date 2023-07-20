@@ -74,7 +74,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
            name: frontend-artifact
-           path: "${{ github.workspace }}/${FBUILD_PATH}"
+           path: "${{ github.workspace }}/Frontend/angular/FrontendDist"
            
       - name: Download Frontend artifact
         uses: actions/download-artifact@v2
@@ -86,10 +86,10 @@ jobs:
         env:
                 # Accessing the secret variable
                 FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
-        run: cp -R frontend-dist/* "${{ github.workspace }}/${FBUILD_PATH}"
+        run: cp -R frontend-dist/* "${{ github.workspace }}/Frontend/angular/FrontendDist"
       
       - name: Display contents of FrontendDist
-        run: ls -R "${{ github.workspace }}/${FBUILD_PATH}"   
+        run: ls -R "${{ github.workspace }}/Frontend/angular/FrontendDist"   
         
   Backend:
     needs: [Frontend]

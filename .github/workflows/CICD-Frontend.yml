@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
            name: frontend-artifact
-           path: "${{ github.workspace }}/${FBUILD_PATH}"
+           path: "${{ github.workspace }}/Backend/aspnet-core/src/CompanyWebsite.Web.Host/wwwroot"
            
       - name: Download Frontend artifact
         uses: actions/download-artifact@v2

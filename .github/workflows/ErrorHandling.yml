@@ -24,19 +24,24 @@ jobs:
           
       - name: Checkout Repository
         uses: actions/checkout@v2
-
+           
       - name: Npm install
         run: |
             cd Frontend/angular
             npm install
             
+      - name: Build Frontend
+        run: |
+           cd Frontend/angular
+           npx ng build  
+           
       - name: Archive Frontend build
         env:
           FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
         uses: actions/upload-artifact@v2
         with:
           name: frontend-artifact
-          path: "${{ github.workspace }}/Frontend/angular/FrontendDist"
+          path: "${{ github.workspace }}/Frontend/angular/dist"
 
       - name: Download Frontend artifact
         id: download-frontend

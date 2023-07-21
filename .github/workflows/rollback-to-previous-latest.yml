@@ -22,5 +22,5 @@ jobs:
         with: 
           ref: ${{ steps.latest.outputs.tag_name }}
       - name: Build and Check then Publish Production
-        uses: ./.github/workflows/CICD-Frontend-Backend.yml
+        uses: ./CICD-Frontend-Backend.yml
       - run: echo "Deployed Production"

@@ -22,5 +22,7 @@ jobs:
         with: 
           ref: ${{ steps.latest.outputs.tag_name }}
       - name: Build and Check then Publish Production
-        uses: ./CICD-Frontend-Backend.yml
+        with:
+          workflow: CICD-Frontend-Backend.yml  # Name of the workflow you want to trigger
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: echo "Deployed Production"

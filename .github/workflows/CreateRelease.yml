@@ -11,11 +11,6 @@ jobs:
     runs-on: ubuntu-22.04
     steps:         
       - name: Create release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref_name }}
         run: |
-          gh release create "$tag" \
-              --repo="$GITHUB_REPOSITORY" \
-              --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
-              --generate-notes
+          git tag v1.0.0
+          git push origin v1.0.0

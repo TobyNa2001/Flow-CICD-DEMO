@@ -22,7 +22,5 @@ jobs:
         with: 
           ref: ${{ steps.latest.outputs.tag_name }}
       - name: Build and Check then Publish Production
-        with:
-          workflow: CICD-Frontend-Backend.yml  # Name of the workflow you want to trigger
-          token: ${{ secrets.GITHUB_TOKEN }}
+        uses: ./.github/actions/rollback-to-previous-latest
       - run: echo "Deployed Production"

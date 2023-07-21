@@ -3,11 +3,18 @@ on:
   workflow_dispatch:
 
 jobs:
-  release:
-    name: Release pushed tag
-    runs-on: ubuntu-22.04
-    steps:         
-      - name: Create release
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config user.name "TobyNa2001"
+          git config user.email "nayikchun@gmail.com"
+
+      - name: Create Release Tag
         run: |
           git tag v1.0.0
           git push origin v1.0.0

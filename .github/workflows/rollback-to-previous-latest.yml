@@ -23,4 +23,5 @@ jobs:
           ref: ${{ steps.latest.outputs.tag_name }}
       - name: Build and Check then Publish Production
         uses: ./.github/actions/rollback-to-previous-latest
-      - run: echo "Deployed Production"
+      - name: Deployed Production
+        run: echo "Deployed Production"

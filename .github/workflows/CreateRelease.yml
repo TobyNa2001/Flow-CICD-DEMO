@@ -14,12 +14,6 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - id: latest
-        name: Get Current Latest Release Version
-        uses: thebritican/fetch-latest-release@v1.0.3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-      - run: echo "${{ steps.latest.outputs.tag_name }}"
       - id: release
         name: Create Incremental Release Tag
         uses: rymndhng/release-on-push-action@master

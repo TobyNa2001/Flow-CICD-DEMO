@@ -11,8 +11,6 @@ jobs:
   release-and-check-can-deploy:
     name: Create Incremental Release Tag And Check Can Deploy
     runs-on: ubuntu-latest
-    outputs:
-      can-deploy: ${{ steps.final.outputs.can-deploy }}
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:

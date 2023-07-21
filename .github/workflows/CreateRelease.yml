@@ -1,29 +1,30 @@
-name: "Create Incremental Release Tag And Deploy To Production"
-
-on: 
-  push:
-    branches:
-      - main
+on:
   workflow_dispatch:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+name: Create Release
 
 jobs:
-
-  release-and-check-can-deploy:
-    name: Create Incremental Release Tag And Check Can Deploy
+  build:
+    name: Create Release
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - id: release
-        name: Create Incremental Release Tag
-        uses: rymndhng/release-on-push-action@master
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          bump_version_scheme: norelease
-      - id: final
-        run: | 
-          echo "${{ steps.release.outputs.tag_name }}"
-          if [ "${{ steps.release.outputs.tag_name }}" == '' ]; then
-            echo "can-deploy=false" >> $GITHUB_OUTPUT;
-          else
-            echo "can-deploy=${{ steps.release.outputs.tag_name != steps.latest.outputs.tag_name }}" >> $GITHUB_OUTPUT;
-          fi
+          tag_name: Test
+          release_name: Release Test
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false

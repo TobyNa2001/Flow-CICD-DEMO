@@ -1,0 +1,22 @@
+name: "Rollback To Previous Latest Release"
+
+on: 
+  release:
+    types: [deleted]
+
+jobs:
+  deploy-on-release:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - id: latest
+        uses: thebritican/fetch-latest-release@v1.0.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v2
+        with: 
+          ref: ${{ steps.latest.outputs.tag_name }}
+      - name: Build and Check then Publish Production
+        uses: ./.github/workflows/CICD-Frontend-Backend.yml
+      - run: echo "Deployed Production"

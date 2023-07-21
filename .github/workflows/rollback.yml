@@ -1,4 +1,4 @@
-name: "Rollback To Previous Latest Release"
+name: "Rollback To Latest Release"
 
 on: 
   release:
